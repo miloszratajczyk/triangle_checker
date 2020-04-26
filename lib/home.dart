@@ -24,18 +24,52 @@ class _HomeState extends State<Home> {
   var answerColor = Colors.grey[700];
   String answer =
       "Please provide sides, and press the button in order to get an answer.";
+
+  void pressed() {
+    final sideA = double.tryParse(controlerSideA.text);
+    final sideB = double.tryParse(controlerSideB.text);
+    final sideC = double.tryParse(controlerSideC.text);
+    final _angle = angleOfTriangle(sideA, sideB, sideC);
+    if (sideA + sideB > sideC &&
+        sideA + sideC > sideB &&
+        sideB + sideC > sideA) {
+      if (_angle == 0) {
+        setState(() {
+          answerColor = Colors.black;
+          answer = "This is a rectangular triangle";
+        });
+      } else if (_angle < 0) {
+        setState(() {
+          answerColor = Colors.black;
+          answer = "This is a obtuse triangle";
+        });
+      } else if (_angle > 0) {
+        setState(() {
+          answerColor = Colors.black;
+          answer = "This is an acute triangle";
+        });
+      }
+    } else {
+      setState(() {
+        answerColor = Colors.black;
+        answer = "A triangle with these sides doesn't exist";
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(
-            "Triangle Checker",
-            style: TextStyle(
-              color: Colors.white,
-            ),
+        title: Text(
+          "Triangle Checker",
+          style: TextStyle(
+            color: Colors.white,
           ),
-          centerTitle: true,
-          backgroundColor: Colors.black),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.black,
+      ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -103,30 +137,7 @@ class _HomeState extends State<Home> {
                 height: 30.0,
               ),
               RaisedButton(
-                onPressed: () {
-                  setState(() {
-                    var sideA = double.tryParse(controlerSideA.text);
-                    var sideB = double.tryParse(controlerSideB.text);
-                    var sideC = double.tryParse(controlerSideC.text);
-                    if (sideA + sideB > sideC &&
-                        sideA + sideC > sideB &&
-                        sideB + sideC > sideA) {
-                      if (angleOfTriangle(sideA, sideB, sideC) == 0) {
-                        answerColor = Colors.black;
-                        answer = "This is a rectangular triangle";
-                      } else if (angleOfTriangle(sideA, sideB, sideC) < 0) {
-                        answerColor = Colors.black;
-                        answer = "This is a obtuse triangle";
-                      } else if (angleOfTriangle(sideA, sideB, sideC) > 0) {
-                        answerColor = Colors.black;
-                        answer = "This is an acute triangle";
-                      }
-                    } else {
-                      answerColor = Colors.black;
-                      answer = "A triangle with these sides doesn't exist";
-                    }
-                  });
-                },
+                onPressed: () => pressed(),
                 child: const Text('Check the traingle',
                     style: TextStyle(fontSize: 20)),
               ),
