@@ -5,7 +5,7 @@ class TriangleDownPaint extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint();
-    paint.color = Colors.grey[900];
+    paint.color = Colors.blue;
     paint.style = PaintingStyle.fill;
 
     var path = Path();
